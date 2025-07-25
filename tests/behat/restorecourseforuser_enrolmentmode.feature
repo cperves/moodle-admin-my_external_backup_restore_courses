@@ -1,4 +1,4 @@
-@block @block_my_external_backup_restore_courses @javascript
+@tool_my_external_backup_restore_courses @javascript
 
 Feature:
   As a editingteacher I Want to restore a course from a remote plate-forme
@@ -33,25 +33,24 @@ Feature:
       | user     | course | role   |
       | teacher1 | C1     | editingteacher |
       | student1 | C1     | student |
-
-
-
-  @javascript
-  Scenario: Restore a course for other user, without usersdatas and with enolmentmode to ENROL_ALWAYS
-    When I log in as "admin"
-    And I add "Cohort sync" enrolment method in "C1" with:
-      | Cohort | Cohort one |
+    And I log in as "admin"
+    And I am on the "C1" "enrolment methods" page
+    And I select "Cohort sync" from the "Add method" singleselect
+    And I open the autocomplete suggestions list
+    And I click on "Cohort One" item in the autocomplete list
+    And I press "Add method"
     And I navigate to "Appearance > Default Dashboard page" in site administration
     And I turn editing mode on
     And I add the "Restore courses from remote Moodles" block
     And I press "Reset Dashboard for all users"
-    And I wait "1" seconds
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Restore course for user" in site administration
+
+  Scenario: Restore a course for other user, without usersdatas and with enolmentmode to ENROL_ALWAYS
+    And I navigate to "General > My external backup restore courses admin tools > Restore course for user" in site administration
     And I set the field "Remote course id" to last created course id
     And the "#id_enrolmentmode option[value='1']" "css_element" should be disabled
     And I select "Yes, always" from the "Include enrolment methods mode" singleselect
     And I click on "Planify course restoration" "button"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Backup/restore task administration tool" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Backup/restore task administration tool" in site administration
     And I should see "Test course 1"
     And I should see "Scheduled"
     And I run the scheduled task "\block_my_external_backup_restore_courses\task\backup_restore_task"
@@ -64,22 +63,14 @@ Feature:
     And I should not see "S1 Student1"
     And I should not see "T1 Teacher1"
 
-  @javascript
+
   Scenario: Restore a course for other user, without usersdatas and with enolmentmode to ENROL_NEVER
-    When I log in as "admin"
-    And I add "Cohort sync" enrolment method in "C1" with:
-      | Cohort | Cohort one |
-    And I navigate to "Appearance > Default Dashboard page" in site administration
-    And I turn editing mode on
-    And I add the "Restore courses from remote Moodles" block
-    And I press "Reset Dashboard for all users"
-    And I wait "1" seconds
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Restore course for user" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Restore course for user" in site administration
     And I set the field "Remote course id" to last created course id
     And the "#id_enrolmentmode option[value='1']" "css_element" should be disabled
     And I select "No, restore users as manual enrolments" from the "Include enrolment methods mode" singleselect
     And I click on "Planify course restoration" "button"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Backup/restore task administration tool" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Backup/restore task administration tool" in site administration
     And I should see "Test course 1"
     And I should see "Scheduled"
     And I run the scheduled task "\block_my_external_backup_restore_courses\task\backup_restore_task"
@@ -91,22 +82,14 @@ Feature:
     And I should not see "S1 Student1"
     And I should not see "T1 Teacher1"
 
-  @javascript
+
   Scenario: Restore a course for other user, with usersdatas and with enolmentmode to ENROL_ALWAYS
-    When I log in as "admin"
-    And I add "Cohort sync" enrolment method in "C1" with:
-      | Cohort | Cohort one |
-    And I navigate to "Appearance > Default Dashboard page" in site administration
-    And I turn editing mode on
-    And I add the "Restore courses from remote Moodles" block
-    And I press "Reset Dashboard for all users"
-    And I wait "1" seconds
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Restore course for user" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Restore course for user" in site administration
     And I set the field "Remote course id" to last created course id
     And I set the field "withuserdatas" to "checked"
     And I select "Yes, always" from the "Include enrolment methods mode" singleselect
     And I click on "Planify course restoration" "button"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Backup/restore task administration tool" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Backup/restore task administration tool" in site administration
     And I should see "Test course 1"
     And I should see "Scheduled"
     And I run the scheduled task "\block_my_external_backup_restore_courses\task\backup_restore_task"
@@ -119,22 +102,13 @@ Feature:
     And I should see "S1 Student1"
     And I should see "T1 Teacher1"
 
-  @javascript
   Scenario: Restore a course for other user, with usersdatas and with enolmentmode to ENROL_ALWAYS
-    When I log in as "admin"
-    And I add "Cohort sync" enrolment method in "C1" with:
-      | Cohort | Cohort one |
-    And I navigate to "Appearance > Default Dashboard page" in site administration
-    And I turn editing mode on
-    And I add the "Restore courses from remote Moodles" block
-    And I press "Reset Dashboard for all users"
-    And I wait "1" seconds
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Restore course for user" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Restore course for user" in site administration
     And I set the field "Remote course id" to last created course id
     And I set the field "withuserdatas" to "checked"
     And I select "Yes, but only if users are included" from the "Include enrolment methods mode" singleselect
     And I click on "Planify course restoration" "button"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Backup/restore task administration tool" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Backup/restore task administration tool" in site administration
     And I should see "Test course 1"
     And I should see "Scheduled"
     And I run the scheduled task "\block_my_external_backup_restore_courses\task\backup_restore_task"

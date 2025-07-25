@@ -1,4 +1,4 @@
-@block @block_my_external_backup_restore_courses
+@tool_my_external_backup_restore_courses
 
 Feature:
   As a editingteacher I Want to restore a course from a remote plate-forme
@@ -18,7 +18,8 @@ Feature:
       | restorer1  | restorer  | System       |
     And I set the following system permissions of "restorer" role:
       | capability                  | permission |
-      | block/my_external_backup_restore_courses:restore_courses_for_users | Allow    |
+      | tool/my_external_backup_restore_courses:restore_course_for_user | Allow     |
+      | moodle/site:configview                                          | Allow     |
     And the following config values are set as admin:
       | defaultcategory|1|block_my_external_backup_restore_courses|
       | restorecourseinoriginalcategory| 0|block_my_external_backup_restore_courses|
@@ -43,14 +44,14 @@ Feature:
     And I press "Reset Dashboard for all users"
     And I wait "1" seconds
     And I click on "Continue" "button"
-    And I logout
+    And I log out
     And I log in as "restorer1"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Restore course for user" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Restore course for user" in site administration
     And I set the field "Remote course id" to last created course id
     And I click on "Planify course restoration" "button"
-    And I logout
-    And I login as admin
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Backup/restore task administration tool" in site administration
+    And I log out
+    And I log in as "admin"
+    And I navigate to "General > My external backup restore courses admin tools > Backup/restore task administration tool" in site administration
     And I should see "Test course 1"
     And I should see "Scheduled"
     Then I log out

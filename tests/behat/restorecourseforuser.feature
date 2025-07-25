@@ -1,4 +1,4 @@
-@block @block_my_external_backup_restore_courses
+@tool @tool_my_external_backup_restore_courses
 
 Feature:
   As a editingteacher I Want to restore a course from a remote plate-forme
@@ -37,10 +37,10 @@ Feature:
     And I press "Reset Dashboard for all users"
     And I wait "1" seconds
     And I click on "Continue" "button"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Restore course for user" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Restore course for user" in site administration
     And I set the field "Remote course id" to last created course id
     And I click on "Planify course restoration" "button"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Backup/restore task administration tool" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Backup/restore task administration tool" in site administration
     And I should see "Test course 1"
     And I should see "Scheduled"
     Then I log out
@@ -69,11 +69,10 @@ Feature:
     And I press "Reset Dashboard for all users"
     And I wait "1" seconds
     And I click on "Continue" "button"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Restore course for user" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Restore course for user" in site administration
     And I set the field "Remote course id" to last created course id
-    And I click on "//descendant::input[@name='externalmoodleurl'][1]" "xpath_element"
     And I click on "Planify course restoration" "button"
-    And I navigate to "Plugins > Blocks > Restore courses from remote Moodles > Backup/restore task administration tool" in site administration
+    And I navigate to "General > My external backup restore courses admin tools > Backup/restore task administration tool" in site administration
     And I should see "Test course 1"
     And I should see "Scheduled"
     Then I log out
@@ -91,4 +90,7 @@ Feature:
     And I should see "Performed" in the "Test course 1 (C1)" "table_row"
     And I should see "by  internal moodle administrator"
     And "input[name=enrolltocourse]" "css_element" should exist
-    And I should see "error/site name can 't be retrieved for"
+    And I click on "input[name=enrolltocourse]" "css_element"
+    And "input[name=enrolltocourse]" "css_element" should not exist
+    And I should see "you are already enrolled into course" in the "Test course 1 (C1)" "table_row"
+
