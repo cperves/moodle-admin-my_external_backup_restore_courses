@@ -13,14 +13,17 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
- * @package
- * @subpackage
+ * @package tool_my_external_backup_restore_courses
+ * @subpackage setting file
  * @copyright  2025 Université de Strasbourg  {@link http://unistra.fr}
  * @author Celine Perves <cperves@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 $plugin = core_plugin_manager::instance()->get_plugin_info('block_my_external_backup_restore_courses');
 $ADMIN->add('root', new admin_category('toolmyexternalbackuprestorecoursesfolder',
     new lang_string('pluginname', 'tool_my_external_backup_restore_courses'),

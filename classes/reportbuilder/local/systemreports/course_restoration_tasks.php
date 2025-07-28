@@ -13,10 +13,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
- * @package
- * @subpackage
+ * @package tool_my_external_backup_restore_courses
+ * @subpackage system report
  * @copyright  2025 Université de Strasbourg  {@link http://unistra.fr}
  * @author Celine Perves <cperves@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,10 +29,21 @@ use tool_my_external_backup_restore_courses\reportbuilder\local\entities\course_
 use context_system;
 use core_reportbuilder\system_report;
 
+/**
+ * System report class
+ */
 class course_restoration_tasks extends system_report {
+    /**
+     * @var course restoration task entity
+     */
     private $courserestorationtaskentity;
-    protected function initialise(): void
-    {
+
+    /**
+     * init
+     * @return void
+     * @throws \coding_exception
+     */
+    protected function initialise(): void {
         $this->courserestorationtaskentity = new course_restoration_task();
         $entitymainalias = $this->courserestorationtaskentity->get_table_alias('block_external_backuprestore');
         $this->set_main_table('block_external_backuprestore', $entitymainalias);
@@ -41,11 +53,22 @@ class course_restoration_tasks extends system_report {
         $this->add_filters();
     }
 
+    /**
+     * can view report
+     * @return bool
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
     protected function can_view(): bool {
         return has_capability('moodle/site:config', context_system::instance());
     }
-    public function add_columns(): void
-    {
+
+    /**
+     * columns add
+     * @return void
+     * @throws \coding_exception
+     */
+    public function add_columns(): void {
         $entitityname = 'course_restoration_task';
 
         $this->add_columns_from_entities([
@@ -67,6 +90,10 @@ class course_restoration_tasks extends system_report {
 
     }
 
+    /**
+     * filters add
+     * @return void
+     */
     protected function add_filters(): void {
         $entitityname = 'course_restoration_task';
         $filters = [

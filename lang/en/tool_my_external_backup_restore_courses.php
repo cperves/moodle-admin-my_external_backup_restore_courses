@@ -13,16 +13,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
- * @package
- * @subpackage
+ * @package tool_my_external_backup_restore_courses
+ * @subpackage lang string file
  * @copyright  2025 Université de Strasbourg  {@link http://unistra.fr}
  * @author Celine Perves <cperves@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'My external backup restore courses admin tools';
-$string['adminrestorecourseforuser'] = 'Restore course for user';
+
 $string['adminpage'] = 'Backup/restore task administration tool';
+$string['adminrestorecourseforuser'] = 'Restore course for user';
 $string['my_external_backup_restore_courses:restore_course_for_user'] = 'User has the possibility to restore a course for other user.';
+$string['pluginname'] = 'My external backup restore courses admin tools';
 $string['privacy:metadata'] = 'The my_external_backup_restore_courses tool plugin does not store any personal data.';

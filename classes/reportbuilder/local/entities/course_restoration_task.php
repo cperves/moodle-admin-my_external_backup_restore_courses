@@ -13,15 +13,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
- * @package
- * @subpackage
+ * @package tool_my_external_backup_restore_courses
+ * @subpackage system reports
  * @copyright  2025 Université de Strasbourg  {@link http://unistra.fr}
  * @author Celine Perves <cperves@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace tool_my_external_backup_restore_courses\reportbuilder\local\entities;
+
+defined('MOODLE_INTERNAL') || die();
 
 use block_my_external_backup_restore_courses_tools;
 use core\output\html_writer;
@@ -40,20 +43,34 @@ use PhpOffice\PhpSpreadsheet\Calculation\Logical\Boolean;
 use stdClass;
 
 require_once($CFG->dirroot.'/blocks/my_external_backup_restore_courses/locallib.php');
+
+/**
+ * System report entity for cours erestoration task
+ */
 class course_restoration_task extends base {
+    /**
+     * default table getter
+     * @return string[]
+     */
     protected function get_default_tables(): array {
         return [
             'block_external_backuprestore',
         ];
     }
 
-    protected function get_default_entity_title(): lang_string
-    {
+    /**
+     * entity title
+     * @return lang_string
+     */
+    protected function get_default_entity_title(): lang_string {
         return new lang_string('course_restoration_task', 'block_my_external_backup_restore_courses');
     }
 
-    public function initialise(): base
-    {
+    /**
+     * entity init
+     * @return base
+     */
+    public function initialise(): base {
         $columns = $this->get_all_columns();
         foreach ($columns as $column) {
             $this->add_column($column);
@@ -68,8 +85,12 @@ class course_restoration_task extends base {
         return $this;
     }
 
-    protected function get_all_columns(): array
-    {
+    /**
+     * get entiry columns
+     * @return array
+     * @throws \coding_exception
+     */
+    protected function get_all_columns(): array {
         global $PAGE;
         // Loading amd without explicite function name not works.
         $jscode =
@@ -81,7 +102,6 @@ class course_restoration_task extends base {
                     changeuserid = function(id) {
                         changetaskfields.changeuserid(id);
                     }
-                    
                     changestatus = function(id) {
                         changetaskfields.changestatus(id);
                     }
@@ -154,7 +174,7 @@ class course_restoration_task extends base {
                 static function(?string $value, stdClass $row): string {
                     global $DB;
                     if ($row->courseid) {
-                        $course = $DB->get_record('course', array('id' => $row->courseid));
+                        $course = $DB->get_record('course', ['id' => $row->courseid]);
                     }
                     return ($row->courseid ?
                             (
@@ -164,8 +184,8 @@ class course_restoration_task extends base {
                                 ))
                                 :
                                 html_writer::link(new moodle_url('/course/view.php',
-                                    ['id' => $row->courseid]),get_string('shortnameXfullname',
-                                    'block_my_external_backup_restore_courses',$course))
+                                    ['id' => $row->courseid]), get_string('shortnameXfullname',
+                                    'block_my_external_backup_restore_courses', $course))
                             )
                             : ''
                         );
@@ -174,7 +194,8 @@ class course_restoration_task extends base {
             ->set_is_sortable(true);
         $columns[] = (
             new column(
-                'externalcoursename', new lang_string('externalcoursename', 'block_my_external_backup_restore_courses'), $this->get_entity_name()
+                'externalcoursename', new lang_string('externalcoursename',
+                    'block_my_external_backup_restore_courses'), $this->get_entity_name()
             ))
             ->set_type(column::TYPE_TEXT)
             ->add_fields(
@@ -184,14 +205,16 @@ class course_restoration_task extends base {
                 static function(?string $value, stdClass $row): string {
                     return ($row->externalcourseid ?
                         html_writer::link(new moodle_url($row->externalmoodleurl.'/course/view.php',
-                            ['id' => $row->externalcourseid]),$row->externalcoursename)
+                            ['id' => $row->externalcourseid]), $row->externalcoursename)
                         : '');
                 }
             )
             ->set_is_sortable(true);
         $columns[] = (
             new column(
-                'externalcourseid', new lang_string('externalcourseid', 'block_my_external_backup_restore_courses'), $this->get_entity_name()
+                'externalcourseid',
+                new lang_string('externalcourseid', 'block_my_external_backup_restore_courses'),
+                $this->get_entity_name()
             ))
             ->set_type(column::TYPE_INTEGER)
             ->add_field("{$tablealias}.externalcourseid")
@@ -205,16 +228,6 @@ class course_restoration_task extends base {
             ->set_callback(
                 static function(?int $value, stdClass $row): string {
                     global $OUTPUT;
-                    $edittext = html_writer::empty_tag(
-                        'input',
-                        [
-                            'id' => 'user_' . $row->id,
-                            'value' => $row->userid,
-                            'onkeydown' => 'if(event.keyCode == 13) changeuserid(' . $row->id . ')',
-                            'disabled' => ''
-                        ]
-                    );
-                    //return $edittext;
                     $editplace = new inplace_editable(
                         'block_my_external_backup_restore_courses',
                         'task_userid',
@@ -229,30 +242,24 @@ class course_restoration_task extends base {
             ->set_is_sortable(true);
         $columns[] = (
         new column(
-            'externalmoodleurl', new lang_string('externalmoodleurl', 'block_my_external_backup_restore_courses'), $this->get_entity_name()
+            'externalmoodleurl',
+            new lang_string('externalmoodleurl', 'block_my_external_backup_restore_courses'),
+            $this->get_entity_name()
         ))
             ->set_type(column::TYPE_TEXT)
             ->add_field("{$tablealias}.externalmoodleurl")
             ->set_is_sortable(true);
         $columns[] = (
         new column(
-            'internalcategory', new lang_string('internalcategory', 'block_my_external_backup_restore_courses'), $this->get_entity_name()
+            'internalcategory',
+            new lang_string('internalcategory', 'block_my_external_backup_restore_courses'),
+            $this->get_entity_name()
         ))
             ->set_type(column::TYPE_INTEGER)
             ->add_fields("{$tablealias}.internalcategory,{$tablealias}.id")
             ->set_callback(
                 static function(?int $value, stdClass $row): string {
                     global $OUTPUT;
-                    $edittext = html_writer::empty_tag(
-                        'input',
-                        [
-                            'id' => 'internalcategory_'.$row->id,
-                            'value' => $row->internalcategory,
-                            'onkeydown' => 'if(event.keyCode == 13) changeinternalcategory('.$row->id.')',
-                            'disabled' => ''
-                        ]
-                    );
-                    //return $edittext;
                     $editplace = new inplace_editable(
                         'block_my_external_backup_restore_courses',
                         'task_internalcategory_id',
@@ -268,7 +275,9 @@ class course_restoration_task extends base {
             ->set_is_sortable(true);
         $columns[] = (
             new column(
-                'timecreated', new lang_string('timecreated', 'block_my_external_backup_restore_courses'), $this->get_entity_name()
+                'timecreated',
+                new lang_string('timecreated', 'block_my_external_backup_restore_courses'),
+                $this->get_entity_name()
             ))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TIMESTAMP)
@@ -278,7 +287,10 @@ class course_restoration_task extends base {
             ->add_callback(fn($value) => $value ?: get_string('never'));
         $columns[] = (
             new column(
-                'timemodified', new lang_string('timemodified', 'block_my_external_backup_restore_courses'), $this->get_entity_name()
+                'timemodified',
+                new lang_string('timemodified',
+                    'block_my_external_backup_restore_courses'),
+                $this->get_entity_name()
             ))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TIMESTAMP)
@@ -288,7 +300,9 @@ class course_restoration_task extends base {
             ->add_callback(fn($value) => $value ?: get_string('never'));
         $columns[] = (
             new column(
-                'timescheduleprocessed', new lang_string('timescheduleprocessed', 'block_my_external_backup_restore_courses'), $this->get_entity_name()
+                'timescheduleprocessed',
+                new lang_string('timescheduleprocessed', 'block_my_external_backup_restore_courses'),
+                $this->get_entity_name()
             ))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TIMESTAMP)
@@ -299,6 +313,12 @@ class course_restoration_task extends base {
         return $columns;
     }
 
+    /**
+     * get entity filters
+     * @return array
+     * @throws \coding_exception
+     * @throws \moodle_exceptionget ent
+     */
     protected function get_all_filters(): array {
         global $DB;
 
@@ -332,7 +352,7 @@ class course_restoration_task extends base {
             ))
                 ->add_joins($this->get_joins())
                 ->set_options_callback(
-                    static function():  array {
+                    static function(): array {
                         $status = [
                             block_my_external_backup_restore_courses_tools::STATUS_SCHEDULED =>
                                 new lang_string('scheduledstatus', 'block_my_external_backup_restore_courses'),
@@ -357,7 +377,7 @@ class course_restoration_task extends base {
                 ))
                     ->add_joins($this->get_joins())
                     ->set_options_callback(
-                        static function():  array {
+                        static function(): array {
                             global $DB;
                             $sources =
                                 $DB->get_records_sql(
@@ -407,7 +427,7 @@ class course_restoration_task extends base {
             ))
                 ->add_joins($this->get_joins())
                 ->set_options_callback(
-                    static function():  array {
+                    static function(): array {
                         global $DB;
                         $externalmoodles =
                             $DB->get_records_sql(

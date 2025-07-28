@@ -17,9 +17,9 @@
 /**
  * Folder plugin version information
  *
- * @package
- * @subpackage
- * @copyright  2025 Univeristé de Strasbourg  {@link http://unistra.fr}
+ * @package tool_my_external_backup_restore_courses
+ * @subpackage version file
+ * @copyright  2025 Université de Strasbourg  {@link http://unistra.fr}
  * @author Celine Perves <cperves@unistra.fr>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
