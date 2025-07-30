@@ -25,6 +25,11 @@
 namespace block\my_external_backup_restore_courses\admin;
 use backup;
 use core\output\html_writer;
+use MoodleQuickForm_checkbox;
+use MoodleQuickForm_group;
+use MoodleQuickForm_radio;
+use MoodleQuickForm_selectchain;
+use MoodleQuickForm_textarea;
 
 defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/formslib.php");
@@ -58,6 +63,8 @@ class restorecourseforuser_form extends \moodleform {
                 $mform->addGroup($radioarray, 'externalmoodlesarray',
                     get_string('externalmoodleurl', 'block_my_external_backup_restore_courses'),
                     [' '], false);
+                /*$mform->addRule('externalmoodleurl', get_string('required'),
+                    'required', null, 'client');*/
             } else {
                 $mform->addElement('hidden', 'externalmoodleurl', array_keys($externalmoodles)[0]);
                 $mform->setType('externalmoodleurl', PARAM_RAW);
@@ -66,7 +73,7 @@ class restorecourseforuser_form extends \moodleform {
                     array_keys($externalmoodles)[0]);
             }
             $mform->addElement('text', 'externalcourseid',
-                get_string('externalcourseid', 'block_my_external_backup_restore_courses'));
+                get_string('externalcourseid', 'tool_my_external_backup_restore_courses'));
             $mform->setType('externalcourseid', PARAM_INT);
             $mform->addRule('externalcourseid', get_string('required'),
                 'required', null, 'client');
@@ -92,6 +99,17 @@ class restorecourseforuser_form extends \moodleform {
         } else {
             $mform->addElement('static', 'noexternalmoodles', $staticnoplfelement);
 
+        }
+    }
+    public function reset(){
+        $mform = &$this->_form;
+        foreach ($mform->_elements as $element) {
+            if ($element instanceof MoodleQuickForm_checkbox
+                || $element instanceof MoodleQuickForm_radio
+                || $element instanceof MoodleQuickForm_textarea
+            ) {
+                $element->reset();
+            }
         }
     }
 }

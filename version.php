@@ -26,10 +26,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2025072800;
-$plugin->release = '1.0.0';
+$plugin->version = 2025073000;
+$plugin->release = '1.0.1';
 $plugin->maturity   = MATURITY_STABLE;
 $plugin->requires = 2024100701;
 // Full name of the plugin (used for diagnostics).
 $plugin->component = 'tool_my_external_backup_restore_courses';
-$plugin->dependencies = ['tool_my_external_backup_restore_courses' => 2025072300];
+$plugin->dependencies = ['tool_my_external_backup_restore_courses' => 2025073000];

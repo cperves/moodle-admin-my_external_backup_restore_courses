@@ -44,6 +44,7 @@ class course_restoration_tasks extends system_report {
      * @throws \coding_exception
      */
     protected function initialise(): void {
+        global $USER;
         $this->courserestorationtaskentity = new course_restoration_task();
         $entitymainalias = $this->courserestorationtaskentity->get_table_alias('block_external_backuprestore');
         $this->set_main_table('block_external_backuprestore', $entitymainalias);
@@ -60,7 +61,10 @@ class course_restoration_tasks extends system_report {
      * @throws \dml_exception
      */
     protected function can_view(): bool {
-        return has_capability('moodle/site:config', context_system::instance());
+        return (
+            has_capability('moodle/site:config', context_system::instance())
+                || has_capability('tool/my_external_backup_restore_courses:restore_course_for_user', context_system::instance())
+        );
     }
 
     /**
@@ -69,6 +73,7 @@ class course_restoration_tasks extends system_report {
      * @throws \coding_exception
      */
     public function add_columns(): void {
+        $systemcontext = context_system::instance();
         $entitityname = 'course_restoration_task';
 
         $this->add_columns_from_entities([
@@ -79,6 +84,11 @@ class course_restoration_tasks extends system_report {
             $entitityname.':externalcoursename',
             $entitityname.':externalcourseid',
             $entitityname.':userid',
+            ]);
+        //if (has_capability('moodle/site:config', $systemcontext)) {
+            $this->add_columns_from_entities([$entitityname.':restoredby',]);
+        //}
+        $this->add_columns_from_entities([
             $entitityname.':externalmoodleurl',
             $entitityname.':internalcategory',
             $entitityname.':source',
@@ -103,6 +113,7 @@ class course_restoration_tasks extends system_report {
             $entitityname.':externalcoursename',
             $entitityname.':externalcourseid',
             $entitityname.':userid',
+            $entitityname.':restoredby',
             $entitityname.':externalmoodleurl',
             $entitityname.':internalcategory',
             $entitityname.':source',

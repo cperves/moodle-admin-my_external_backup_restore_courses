@@ -23,6 +23,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core_reportbuilder\external\conditions\reset;
+use core_reportbuilder\local\filters\user;
+use core_reportbuilder\system_report_factory;
+use tool_my_external_backup_restore_courses\reportbuilder\local\systemreports\course_restoration_tasks;
+
 require_once(dirname(__FILE__) . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot.'/blocks/my_external_backup_restore_courses/locallib.php');
@@ -38,9 +43,6 @@ $PAGE->set_heading(get_string('adminrestorecourseforuser', 'tool_my_external_bac
 $PAGE->requires->js(new moodle_url('/admin/tool/my_external_backup_restore_courses/module.js'));
 
 $restorecourseforuserform = new block\my_external_backup_restore_courses\admin\restorecourseforuser_form();
-echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('adminrestorecourseforuser',
-    'tool_my_external_backup_restore_courses'));
 
 if ($data = $restorecourseforuserform->get_data()) {
     $externalmoodles = block_my_external_backup_restore_courses_tools::get_external_moodles_url_token();
@@ -57,12 +59,17 @@ if ($data = $restorecourseforuserform->get_data()) {
     }
     $data->status = block_my_external_backup_restore_courses_tools::STATUS_SCHEDULED;
     $data->timecreated = time();
+    $data->restoredby = $USER->id;
     $DB->insert_record('block_external_backuprestore', $data);
-    echo $OUTPUT->box_start('my_external_backup_restore_courses_restorecourseforuser_success');
-    echo html_writer::tag('span', get_string('my_external_backup_restore_courses_restorecourseforuser_success',
-        'block_my_external_backup_restore_courses'), ['class' => 'table-success']);
-    echo $OUTPUT->box_end();
+    redirect(new moodle_url('/admin/tool/my_external_backup_restore_courses/restorecourseforuser.php'));
 }
+echo $OUTPUT->header();
+echo $OUTPUT->heading(get_string('adminrestorecourseforuser',
+    'tool_my_external_backup_restore_courses'));
 $restorecourseforuserform->display();
-
+$report = system_report_factory::create(course_restoration_tasks::class, context_system::instance());
+if(!has_capability('moodle/site:config', $sytemcontext)) {
+    $report->add_base_condition_simple('restoredby', $USER->id);
+}
+echo $report->output();
 echo $OUTPUT->footer();
