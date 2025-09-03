@@ -23,8 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core_reportbuilder\external\conditions\reset;
-use core_reportbuilder\local\filters\user;
 use core_reportbuilder\system_report_factory;
 use tool_my_external_backup_restore_courses\reportbuilder\local\systemreports\course_restoration_tasks;
 

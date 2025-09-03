@@ -39,7 +39,6 @@ use core_reportbuilder\local\report\column;
 use core_reportbuilder\local\report\filter;
 use lang_string;
 use moodle_url;
-use PhpOffice\PhpSpreadsheet\Calculation\Logical\Boolean;
 use stdClass;
 
 require_once($CFG->dirroot.'/blocks/my_external_backup_restore_courses/locallib.php');

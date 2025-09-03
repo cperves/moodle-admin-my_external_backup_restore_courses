@@ -26,9 +26,7 @@ namespace block\my_external_backup_restore_courses\admin;
 use backup;
 use core\output\html_writer;
 use MoodleQuickForm_checkbox;
-use MoodleQuickForm_group;
 use MoodleQuickForm_radio;
-use MoodleQuickForm_selectchain;
 use MoodleQuickForm_textarea;
 
 defined('MOODLE_INTERNAL') || die();
@@ -63,8 +61,6 @@ class restorecourseforuser_form extends \moodleform {
                 $mform->addGroup($radioarray, 'externalmoodlesarray',
                     get_string('externalmoodleurl', 'block_my_external_backup_restore_courses'),
                     [' '], false);
-                /*$mform->addRule('externalmoodleurl', get_string('required'),
-                    'required', null, 'client');*/
             } else {
                 $mform->addElement('hidden', 'externalmoodleurl', array_keys($externalmoodles)[0]);
                 $mform->setType('externalmoodleurl', PARAM_RAW);
